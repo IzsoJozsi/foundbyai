@@ -404,7 +404,9 @@
 
 <div class="topbar">
   <div class="topbar-logo">FoundByAI</div>
-  <a class="topbar-cta" onclick="document.getElementById('hero-email').focus()">Get early access</a>
+  <a class="topbar-cta" onclick="document.getElementById('bottom-email').focus(); document.getElementById('bottom-email').scrollIntoView({behavior:'smooth'})">Get early access</a>
+</div>
+
 </div>
 
 <div class="hero">
@@ -443,22 +445,36 @@
   </div>
 
   <div class="comparison">
-    <div class="comparison-label">The difference that gets you named</div>
+    <div class="comparison-label">Real proof — ChatGPT, May 2026</div>
+
+    <div style="background:#f6f8ff; border-radius:8px; padding:20px 24px; margin-bottom:24px;">
+      <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:#6b7280; margin-bottom:12px;">Query sent to ChatGPT</div>
+      <div style="font-size:15px; color:#111; font-style:italic;">"Who is a financial advisor in London specializing in tech startup employees with equity compensation?"</div>
+    </div>
+
     <div class="comp-row">
       <div class="comp-icon good">✓</div>
-      <div class="comp-text">"Mortgage broker in Austin helping tech employees manage RSUs and stock options during job transitions"</div>
+      <div class="comp-text">
+        <strong>Northcap Wealth</strong> — named with confidence. They explicitly publish content around RSUs, share options, equity compensation, diversification after vesting, and cross-border tax planning. ChatGPT cited them because their online presence gives AI exactly what it needs.
+      </div>
     </div>
+
     <div class="comp-row">
       <div class="comp-icon bad">✕</div>
-      <div class="comp-text bad-text">"Helping clients achieve their financial goals" — ignored by every AI engine</div>
+      <div class="comp-text bad-text">
+        First Wealth — also named, but ChatGPT admitted the citation was <em>"an inference based on positioning and reputation, not something clearly documented."</em> Weak citation. Easily displaced.
+      </div>
     </div>
-    <div class="comp-row">
-      <div class="comp-icon good">✓</div>
-      <div class="comp-text">"Family lawyer in Manchester specialising in high-conflict divorce cases involving business assets"</div>
-    </div>
-    <div class="comp-row">
+
+    <div class="comp-row" style="border-bottom:none;">
       <div class="comp-icon bad">✕</div>
-      <div class="comp-text bad-text">"Experienced legal professionals committed to your success" — 40,000 firms say the same</div>
+      <div class="comp-text bad-text">
+        Every other London advisor doing the same work whose website says <em>"modern wealth management for professionals"</em> — not named at all.
+      </div>
+    </div>
+
+    <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); font-size:11px; color:#9ca3af; line-height:1.6;">
+      Real ChatGPT exchange · May 2026 · ChatGPT's own words: <em>"prioritise advisers who explicitly discuss employee share schemes, equity compensation, RSUs — that is a materially stronger signal."</em>
     </div>
   </div>
 
@@ -504,6 +520,14 @@
   </div>
   <div class="bottom-success" id="bottom-success">✓ You're on the list. We'll reach out soon.</div>
   <div class="bottom-note">No credit card. No spam. First in, lowest price.</div>
+
+  <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #1f2937;">
+    <p style="font-size: 12px; color: #4b5563;">
+      By joining the waitlist you agree to our 
+      <a href="/privacy.html" style="color: #6b7280; text-decoration: underline;">Privacy Policy</a>.
+      · citd.ai · contact@citd.ai
+    </p>
+  </div>
 </div>
 
 <script>
