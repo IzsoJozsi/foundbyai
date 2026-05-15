@@ -167,7 +167,28 @@
     color: #1e40af;
     line-height: 1.6;
   }
-  .result-cta strong { display: block; margin-bottom: 4px; font-size: 14px; }
+  .result-cta strong { display: block; margin-bottom: 8px; font-size: 14px; }
+
+  .inline-capture {
+    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .inline-capture input {
+    flex: 1; min-width: 180px; height: 38px; padding: 0 12px;
+    border: 1.5px solid #bfdbfe; border-radius: 6px;
+    font-size: 13px; font-family: inherit; outline: none;
+    background: #fff; color: var(--fg);
+    transition: border-color 0.15s;
+  }
+  .inline-capture input:focus { border-color: var(--accent); }
+  .inline-capture input::placeholder { color: #93c5fd; }
+  .inline-capture button {
+    height: 38px; padding: 0 16px; background: var(--accent);
+    color: #fff; border: none; border-radius: 6px;
+    font-size: 13px; font-weight: 600; font-family: inherit;
+    cursor: pointer; white-space: nowrap;
+  }
+  .inline-capture button:hover { background: #1d4ed8; }
+  .inline-success { display:none; font-size:13px; font-weight:500; color:#16a34a; margin-top:8px; }
 
   /* EMAIL FORM */
   .form-row {
@@ -343,30 +364,36 @@
 
     <div style="background:#f6f8ff; border-radius:8px; padding:20px 24px; margin-bottom:24px;">
       <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:#6b7280; margin-bottom:12px;">Query sent to ChatGPT</div>
-      <div style="font-size:15px; color:#111; font-style:italic;">"Who is a financial advisor in London specializing in tech startup employees with equity compensation?"</div>
+      <div style="font-size:15px; color:#111; font-style:italic;">"Who is a financial advisor in London for tech startup employees with RSUs, EMI options or pre-exit liquidity concerns?"</div>
     </div>
 
     <div class="comp-row">
       <div class="comp-icon good">✓</div>
       <div class="comp-text">
-        <strong>Northcap Wealth</strong> — named with confidence. They explicitly publish content around RSUs, share options, equity compensation, diversification after vesting, and cross-border tax planning. ChatGPT cited them because their online presence gives AI exactly what it needs.
+        <strong>Dragon Argent</strong> — cited with confidence. They publish detailed content on EMI schemes, founder equity, startup share structures, and exit tax planning. AI can find exactly what it needs to recommend them for this query.
+      </div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-icon good">✓</div>
+      <div class="comp-text">
+        <strong>First Wealth</strong> — cited for tech professionals and equity comp integration. Named because their content explicitly connects pension planning, investments, and equity compensation for high earners in tech.
       </div>
     </div>
     <div class="comp-row">
       <div class="comp-icon bad">✕</div>
       <div class="comp-text bad-text">
-        First Wealth — also named, but ChatGPT admitted the citation was <em>"an inference based on positioning and reputation, not something clearly documented."</em> Weak citation. Easily displaced.
+        <strong>London Wall Partners</strong> — experienced firm, FCA regulated, serves City professionals and entrepreneurs. Not cited. Their website describes "strategic financial planning and global investment advice" with no explicit mention of startup equity, RSUs, or EMI schemes.
       </div>
     </div>
     <div class="comp-row" style="border-bottom:none;">
       <div class="comp-icon bad">✕</div>
       <div class="comp-text bad-text">
-        Every other London advisor doing the same work whose website says <em>"modern wealth management for professionals"</em> — not named at all.
+        Every other qualified advisor in London doing the same work — not named. Because their website doesn't say it in the specific language AI needs to cite them with confidence.
       </div>
     </div>
 
     <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); font-size:11px; color:#9ca3af; line-height:1.6;">
-      Real ChatGPT exchange · May 2026 · ChatGPT's own words: <em>"prioritise advisers who explicitly discuss employee share schemes, equity compensation, RSUs — that is a materially stronger signal."</em>
+      Real ChatGPT exchange · May 2026 · ChatGPT's own words: <em>"advisers who explicitly discuss EMI schemes, RSUs, and startup equity — that is a materially stronger signal than general wealth management positioning."</em>
     </div>
   </div>
 
@@ -465,8 +492,9 @@ function showResult(d) {
 
   var cls = d.score < 40 ? 'invisible' : d.score < 70 ? 'partial' : 'citable';
 
+  // Set circle content before showing — prevents flicker
+  num.textContent = d.score;
   circle.className = 'score-circle ' + cls;
-  num.textContent  = d.score;
   band.className   = 'score-band ' + cls;
   band.textContent = d.band;
   urlEl.textContent = d.url;
@@ -479,14 +507,22 @@ function showResult(d) {
     '</div>';
   }).join('');
 
-  var ctaMsg = d.score < 40
-    ? '<strong>Your site is invisible to AI.</strong> ChatGPT has nothing to cite. We can fix this with structured content tailored to your niche.'
+  var ctaText = d.score < 40
+    ? '<strong>Your site is invisible to AI.</strong> ChatGPT has nothing to cite you for. Enter your email and we\'ll send you a specific fix list for your niche.'
     : d.score < 70
-    ? '<strong>You\'re partially visible — but fragile.</strong> AI may cite you inconsistently. A few targeted fixes would lock in your position.'
-    : '<strong>Good foundation.</strong> You\'re citable, but specificity and FAQ schema could push you ahead of competitors in your niche.';
+    ? '<strong>You\'re partially visible — but fragile.</strong> AI may cite you inconsistently. Enter your email and we\'ll show you exactly what to fix.'
+    : '<strong>Good foundation.</strong> Enter your email and we\'ll show you how to pull ahead of competitors in your niche.';
 
-  cta.innerHTML = ctaMsg + ' <a href="#hero-email" onclick="document.getElementById(\'hero-email\').focus()" style="color:var(--accent);font-weight:600;">Get the full fix →</a>';
+  // Inline email capture for low/mid scores
+  var captureHtml = d.score < 70
+    ? '<div class="inline-capture">' +
+        '<input type="email" id="inline-email" placeholder="your@email.com" />' +
+        '<button onclick="submitInline()">Send my fix list →</button>' +
+      '</div>' +
+      '<div class="inline-success" id="inline-success">✓ On the list. Fix list coming soon.</div>'
+    : '<a href="#hero-email" onclick="document.getElementById(\'hero-email\').focus()" style="display:inline-block;margin-top:10px;color:var(--accent);font-weight:600;font-size:13px;">Get the full report →</a>';
 
+  cta.innerHTML = ctaText + captureHtml;
   box.style.display = 'block';
 }
 
@@ -499,6 +535,17 @@ function showError(msg) {
 document.getElementById('scan-url').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') runScan();
 });
+
+function submitInline() {
+  var el = document.getElementById('inline-email');
+  if (!el || !el.value || !el.value.includes('@')) {
+    if (el) el.style.borderColor = '#ef4444';
+    return;
+  }
+  el.style.display = 'none';
+  el.nextElementSibling.style.display = 'none';
+  document.getElementById('inline-success').style.display = 'block';
+}
 </script>
 
 </body>
