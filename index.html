@@ -6,6 +6,7 @@
 <title>AEOCheck — Get Recommended by ChatGPT</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://tally.so/widgets/embed.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -28,26 +29,20 @@
 
   /* TOPBAR */
   .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
     background: rgba(255,255,255,0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    padding: 0 48px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 0 48px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
   }
-
   .topbar-logo { font-size: 14px; font-weight: 700; letter-spacing: -0.3px; color: var(--fg); }
-
   .topbar-cta {
     font-size: 13px; font-weight: 500; color: var(--accent);
     text-decoration: none; padding: 6px 14px;
     border: 1px solid var(--accent); border-radius: 6px;
-    transition: all 0.15s; cursor: pointer;
+    transition: all 0.15s; cursor: pointer; background: none;
+    font-family: inherit;
   }
   .topbar-cta:hover { background: var(--accent); color: #fff; }
 
@@ -76,21 +71,14 @@
 
   /* SCANNER */
   .scanner-box {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 28px;
-    margin-bottom: 16px;
-    max-width: 560px;
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 28px; margin-bottom: 40px; max-width: 560px;
   }
-
   .scanner-label {
     font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
     text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
   }
-
   .scanner-row { display: flex; gap: 10px; flex-wrap: wrap; }
-
   .scanner-row input {
     flex: 1; min-width: 200px; height: 44px; padding: 0 16px;
     border: 1.5px solid var(--border); border-radius: 8px;
@@ -99,56 +87,29 @@
   }
   .scanner-row input:focus { border-color: var(--accent); }
   .scanner-row input::placeholder { color: #9ca3af; }
-
-  .btn-primary {
-    height: 44px; padding: 0 20px; background: var(--accent);
-    color: #fff; border: none; border-radius: 8px;
-    font-size: 14px; font-weight: 600; font-family: inherit;
-    cursor: pointer; white-space: nowrap; transition: background 0.15s;
-  }
-  .btn-primary:hover { background: #1d4ed8; }
-  .btn-primary:disabled { background: #93c5fd; cursor: not-allowed; }
-
   .scanner-note { font-size: 12px; color: #9ca3af; margin-top: 10px; }
 
   /* RESULTS */
-  .result-box {
-    display: none;
-    margin-top: 20px;
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
-  }
-
-  .result-header {
-    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
-  }
-
+  .result-box { display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+  .result-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
   .score-circle {
     width: 64px; height: 64px; border-radius: 50%;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    font-weight: 700; flex-shrink: 0;
-    border: 3px solid;
+    font-weight: 700; flex-shrink: 0; border: 3px solid;
   }
   .score-circle .score-num { font-size: 20px; line-height: 1; }
   .score-circle .score-pct { font-size: 10px; font-weight: 500; }
-
   .score-circle.invisible { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
   .score-circle.partial   { border-color: #f59e0b; color: #b45309; background: #fffbeb; }
   .score-circle.citable   { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
-
   .score-meta { flex: 1; }
   .score-band { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
   .score-band.invisible { color: #ef4444; }
   .score-band.partial   { color: #b45309; }
   .score-band.citable   { color: #16a34a; }
   .score-url { font-size: 12px; color: var(--muted); }
-
   .breakdown { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-
-  .check-row {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 13px; color: var(--fg);
-  }
+  .check-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--fg); }
   .check-icon {
     width: 20px; height: 20px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -157,55 +118,29 @@
   .check-icon.pass { background: #dcfce7; color: #16a34a; }
   .check-icon.fail { background: #fee2e2; color: #dc2626; }
   .check-weight { margin-left: auto; font-size: 11px; color: var(--muted); font-weight: 600; }
-
   .result-cta {
-    background: var(--accent-light);
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 16px;
-    font-size: 13px;
-    color: #1e40af;
-    line-height: 1.6;
+    background: var(--accent-light); border: 1px solid #bfdbfe;
+    border-radius: 8px; padding: 16px; font-size: 13px;
+    color: #1e40af; line-height: 1.6;
   }
-  .result-cta strong { display: block; margin-bottom: 8px; font-size: 14px; }
+  .result-cta strong { display: block; margin-bottom: 10px; font-size: 14px; }
 
-  .inline-capture {
-    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  /* BUTTONS */
+  .btn-primary {
+    height: 44px; padding: 0 20px; background: var(--accent);
+    color: #fff; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; font-family: inherit;
+    cursor: pointer; white-space: nowrap; transition: background 0.15s;
   }
-  .inline-capture input {
-    flex: 1; min-width: 180px; height: 38px; padding: 0 12px;
-    border: 1.5px solid #bfdbfe; border-radius: 6px;
-    font-size: 13px; font-family: inherit; outline: none;
-    background: #fff; color: var(--fg);
-    transition: border-color 0.15s;
-  }
-  .inline-capture input:focus { border-color: var(--accent); }
-  .inline-capture input::placeholder { color: #93c5fd; }
-  .inline-capture button {
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-primary:disabled { background: #93c5fd; cursor: not-allowed; }
+  .btn-sm {
     height: 38px; padding: 0 16px; background: var(--accent);
     color: #fff; border: none; border-radius: 6px;
     font-size: 13px; font-weight: 600; font-family: inherit;
-    cursor: pointer; white-space: nowrap;
+    cursor: pointer; white-space: nowrap; transition: background 0.15s;
   }
-  .inline-capture button:hover { background: #1d4ed8; }
-  .inline-success { display:none; font-size:13px; font-weight:500; color:#16a34a; margin-top:8px; }
-
-  /* EMAIL FORM */
-  .form-row {
-    display: flex; gap: 10px; max-width: 460px;
-    margin-bottom: 16px; flex-wrap: wrap; margin-top: 32px;
-  }
-  .form-row input {
-    flex: 1; min-width: 200px; height: 44px; padding: 0 16px;
-    border: 1.5px solid var(--border); border-radius: 8px;
-    font-size: 14px; font-family: inherit; outline: none; color: var(--fg);
-    transition: border-color 0.15s;
-  }
-  .form-row input:focus { border-color: var(--accent); }
-  .form-row input::placeholder { color: #9ca3af; }
-
-  .form-note { font-size: 12px; color: #9ca3af; }
-  .success-msg { display: none; font-size: 14px; font-weight: 500; color: #16a34a; padding: 10px 0; }
+  .btn-sm:hover { background: #1d4ed8; }
 
   /* STATS */
   .stats {
@@ -217,7 +152,7 @@
   .stat { background: var(--bg); padding: 28px 24px; }
   .stat-num { font-size: 32px; font-weight: 700; letter-spacing: -1px; color: var(--fg); margin-bottom: 6px; }
   .stat-label { font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .stat-source { font-size: 10px; color: #d1d5db; margin-top: 8px; letter-spacing: 0.3px; }
+  .stat-source { font-size: 10px; color: #d1d5db; margin-top: 8px; }
   .stat-source a { color: #9ca3af; text-decoration: underline; text-underline-offset: 2px; }
 
   /* COMPARISON */
@@ -269,16 +204,7 @@
     letter-spacing: -1px; line-height: 1.15; margin-bottom: 16px;
   }
   .bottom p { font-size: 16px; color: #9ca3af; margin-bottom: 40px; }
-  .bottom-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
-  .bottom-form input {
-    height: 44px; padding: 0 16px; border: 1.5px solid #374151;
-    border-radius: 8px; font-size: 14px; font-family: inherit; outline: none;
-    background: #111827; color: #fff; min-width: 240px; transition: border-color 0.15s;
-  }
-  .bottom-form input:focus { border-color: var(--accent); }
-  .bottom-form input::placeholder { color: #6b7280; }
-  .bottom-note { font-size: 12px; color: #4b5563; }
-  .bottom-success { display: none; font-size: 14px; font-weight: 500; color: #4ade80; padding: 10px 0; }
+  .bottom-note { font-size: 12px; color: #4b5563; margin-top: 16px; }
 
   @media (max-width: 640px) {
     .topbar { padding: 0 20px; }
@@ -294,7 +220,7 @@
 
 <div class="topbar">
   <div class="topbar-logo">AEOCheck</div>
-  <a class="topbar-cta" onclick="document.getElementById('bottom-email').focus(); document.getElementById('bottom-email').scrollIntoView({behavior:'smooth'})">Get early access</a>
+  <button class="topbar-cta" data-tally-open="GxXOyL" data-tally-emoji-text="👋" data-tally-emoji-animation="wave">Get early access</button>
 </div>
 
 <div class="hero">
@@ -318,7 +244,7 @@
     <div class="result-box" id="result-box">
       <div class="result-header">
         <div class="score-circle" id="score-circle">
-          <span class="score-num" id="score-num">—</span>
+          <span class="score-num" id="score-num"></span>
           <span class="score-pct">/ 100</span>
         </div>
         <div class="score-meta">
@@ -326,14 +252,10 @@
           <div class="score-url" id="score-url"></div>
         </div>
       </div>
-
       <div class="breakdown" id="breakdown"></div>
-
       <div class="result-cta" id="result-cta"></div>
     </div>
   </div>
-
-
 
   <div class="stats">
     <div class="stat">
@@ -423,11 +345,7 @@
 <div class="bottom">
   <h2>The window is open now.<br>Early movers compound.</h2>
   <p>Only 10% of independent professionals have any AI search presence today.</p>
-  <div class="bottom-form">
-    <input type="email" id="bottom-email" placeholder="your@email.com">
-    <button class="btn-primary" onclick="submitForm('bottom-email','bottom-success')">Join waitlist →</button>
-  </div>
-  <div class="bottom-success" id="bottom-success">✓ You're on the list. We'll reach out soon.</div>
+  <button class="btn-primary" data-tally-open="GxXOyL" data-tally-emoji-text="👋" data-tally-emoji-animation="wave">Join waitlist →</button>
   <div class="bottom-note">No credit card. No spam. First in, lowest price.</div>
   <div style="margin-top:48px; padding-top:24px; border-top:1px solid #1f2937;">
     <p style="font-size:12px; color:#4b5563;">
@@ -439,33 +357,6 @@
 </div>
 
 <script>
-// ── Tally submit ──────────────────────────────────────────────
-var TALLY_URL = 'https://tally.so/r/GxXOy';
-
-async function submitToTally(email) {
-  try {
-    await fetch(TALLY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'email=' + encodeURIComponent(email)
-    });
-  } catch(e) { /* silent — don't block UX on network error */ }
-}
-
-// ── Email forms ───────────────────────────────────────────────
-async function submitForm(inputId, successId) {
-  var el = document.getElementById(inputId);
-  if (!el.value || !el.value.includes('@')) {
-    el.style.borderColor = '#ef4444';
-    return;
-  }
-  await submitToTally(el.value);
-  el.style.display = 'none';
-  el.nextElementSibling.style.display = 'none';
-  document.getElementById(successId).style.display = 'block';
-}
-
-// ── Scanner ───────────────────────────────────────────────────
 async function runScan() {
   var input = document.getElementById('scan-url');
   var url = input.value.trim();
@@ -481,7 +372,7 @@ async function runScan() {
     var data = await res.json();
     if (data.error) { showError(data.error); return; }
     showResult(data);
-  } catch (e) {
+  } catch(e) {
     showError('Could not reach the scanner. Try again.');
   } finally {
     btn.disabled = false;
@@ -500,11 +391,10 @@ function showResult(d) {
 
   var cls = d.score < 40 ? 'invisible' : d.score < 70 ? 'partial' : 'citable';
 
-  // Set circle content before showing — prevents flicker
-  num.textContent = d.score;
-  circle.className = 'score-circle ' + cls;
-  band.className   = 'score-band ' + cls;
-  band.textContent = d.band;
+  num.textContent   = d.score;
+  circle.className  = 'score-circle ' + cls;
+  band.className    = 'score-band ' + cls;
+  band.textContent  = d.band;
   urlEl.textContent = d.url;
 
   bkdn.innerHTML = d.breakdown.map(function(c) {
@@ -516,22 +406,18 @@ function showResult(d) {
   }).join('');
 
   var ctaText = d.score < 40
-    ? '<strong>Your site is invisible to AI.</strong> ChatGPT has nothing to cite you for. Enter your email and we\'ll send you a specific fix list for your niche.'
+    ? '<strong>Your site is invisible to AI.</strong> ChatGPT has nothing to cite you for. Get a specific fix list for your niche.'
     : d.score < 70
-    ? '<strong>You\'re partially visible — but fragile.</strong> AI may cite you inconsistently. Enter your email and we\'ll show you exactly what to fix.'
-    : '<strong>Good foundation.</strong> Enter your email and we\'ll show you how to pull ahead of competitors in your niche.';
+    ? '<strong>You\'re partially visible — but fragile.</strong> AI may cite you inconsistently. See exactly what to fix.'
+    : '<strong>Good foundation.</strong> See how to pull ahead of competitors in your niche.';
 
-  // Inline email capture for low/mid scores
-  var captureHtml = d.score < 70
-    ? '<div class="inline-capture">' +
-        '<input type="email" id="inline-email" placeholder="your@email.com" />' +
-        '<button onclick="submitInline()">Send my fix list →</button>' +
-      '</div>' +
-      '<div class="inline-success" id="inline-success">✓ On the list. Fix list coming soon.</div>'
-    : '<a href="#hero-email" onclick="document.getElementById(\'hero-email\').focus()" style="display:inline-block;margin-top:10px;color:var(--accent);font-weight:600;font-size:13px;">Get the full report →</a>';
+  cta.innerHTML = ctaText +
+    '<br><br><button class="btn-sm" data-tally-open="GxXOyL" data-tally-emoji-text="👋" data-tally-emoji-animation="wave">Get my fix list →</button>';
 
-  cta.innerHTML = ctaText + captureHtml;
   box.style.display = 'block';
+
+  // Re-init Tally for dynamically inserted button
+  if (window.Tally) window.Tally.loadEmbeds();
 }
 
 function showError(msg) {
@@ -543,18 +429,6 @@ function showError(msg) {
 document.getElementById('scan-url').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') runScan();
 });
-
-async function submitInline() {
-  var el = document.getElementById('inline-email');
-  if (!el || !el.value || !el.value.includes('@')) {
-    if (el) el.style.borderColor = '#ef4444';
-    return;
-  }
-  await submitToTally(el.value);
-  el.style.display = 'none';
-  el.nextElementSibling.style.display = 'none';
-  document.getElementById('inline-success').style.display = 'block';
-}
 </script>
 
 </body>
