@@ -114,7 +114,7 @@ def score(url):
     # Fetch
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "AEOCheck/1.0"})
-        with urllib.request.urlopen(req, timeout=10) as r:
+        with urllib.request.urlopen(req, timeout=8) as r:
             html = r.read().decode("utf-8", errors="ignore")
     except Exception as e:
         return {"error": f"Could not fetch URL: {e}"}
