@@ -439,13 +439,27 @@
 </div>
 
 <script>
+// ── Tally submit ──────────────────────────────────────────────
+var TALLY_URL = 'https://tally.so/r/GxXOy';
+
+async function submitToTally(email) {
+  try {
+    await fetch(TALLY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'email=' + encodeURIComponent(email)
+    });
+  } catch(e) { /* silent — don't block UX on network error */ }
+}
+
 // ── Email forms ───────────────────────────────────────────────
-function submitForm(inputId, successId) {
+async function submitForm(inputId, successId) {
   var el = document.getElementById(inputId);
   if (!el.value || !el.value.includes('@')) {
     el.style.borderColor = '#ef4444';
     return;
   }
+  await submitToTally(el.value);
   el.style.display = 'none';
   el.nextElementSibling.style.display = 'none';
   document.getElementById(successId).style.display = 'block';
@@ -530,12 +544,13 @@ document.getElementById('scan-url').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') runScan();
 });
 
-function submitInline() {
+async function submitInline() {
   var el = document.getElementById('inline-email');
   if (!el || !el.value || !el.value.includes('@')) {
     if (el) el.style.borderColor = '#ef4444';
     return;
   }
+  await submitToTally(el.value);
   el.style.display = 'none';
   el.nextElementSibling.style.display = 'none';
   document.getElementById('inline-success').style.display = 'block';
