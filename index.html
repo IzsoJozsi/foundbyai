@@ -411,7 +411,7 @@ async function runScan() {
   btn.textContent = 'Scanning…';
 
   try {
-    var res = await fetch('/api/scan?url=' + encodeURIComponent(url));
+    var res = await fetch('https://aeocheck.vercel.app/api/scan?url=' + encodeURIComponent(url));
     var data = await res.json();
     if (data.error) { showError(data.error); return; }
     showResult(data);
