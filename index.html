@@ -364,15 +364,14 @@
 </div>
 
 <script>
-// ── Tally submission ──────────────────────────────────────────
+// ── Sheet submission ──────────────────────────────────────────
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzq3Ad6wzn_RSIdF0pENzjcasZKCFV1OGSnG2W_N7tHpU99Vk76aIA9WtstN7RjynD8Bw/exec';
+
 async function submitToTally(email) {
-  var formData = new FormData();
-  formData.append('email', email);
   try {
-    await fetch('https://tally.so/r/GxXOyL', {
-      method: 'POST',
-      mode: 'no-cors',
-      body: formData
+    await fetch(SHEET_URL + '?email=' + encodeURIComponent(email), {
+      method: 'GET',
+      mode: 'no-cors'
     });
   } catch(e) { /* silent */ }
 }
